@@ -1,0 +1,10 @@
+<div>
+    <div>Select a size:</div>
+    <select ng-model="$ctrl.selectedSize" ng-change="$ctrl.handleSelect()">
+        <option ng-repeat="size in $ctrl.sizeModel.values" value="{{size}}">{{size}}</option>
+    </select>
+    <div ng-if="$ctrl.selectedSize">Selected size:
+        <span class="size__selected-size">{{$ctrl.selectedSize}}</span>
+    </div>
+</div>
+<br>

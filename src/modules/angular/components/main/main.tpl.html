@@ -1,0 +1,11 @@
+<div>
+    <size on-select="$ctrl.onSelect({selectedSize: selectedSize})"></size>
+    <add-item (added)="$ctrl.onAdd($event)" [size]=$ctrl.sizeForOrder></add-item>
+    <div ng-if="$ctrl.addedItem">Added Item: name:{{$ctrl.addedItem.name}}; 
+        category:{{$ctrl.addedItem.category}}; 
+        content:{{$ctrl.addedItem.content}};
+        size: {{$ctrl.sizeForOrder}}
+    </div>
+    <br>
+    <city></city>
+</div>
