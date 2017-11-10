@@ -2,6 +2,7 @@
     <div>Cities</div>
     <div *ngFor="let city of cities; let i = index">
         <span>{{city}}</span>
-        <input type="radio" name="city-radiogroup" [checked]="selectedCity==city" [value]="city" (change)="toggle(city)" />
+        <input type="radio" name="city-radiogroup" [checked]="selectedCity==city" [value]="city" (change)="toggle(city)" />       
     </div>
+    <div>{{city$ | async}}</div>
 </div>

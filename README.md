@@ -1,3 +1,3 @@
-# npm i
-# npm run server
-# npm test
+npm i
+npm run server
+npm test

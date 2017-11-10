@@ -1,19 +1,17 @@
-import { ItemModel } from "../../model/item-model";
+import { Item } from "../../model/item.model";
+import { StoreService } from "../../services/store.service";
 
 export class MainController {
 
-    private addedItem: ItemModel;
-    private sizeForOrder: string;
+    public static $inject: Array<string> = ["StoreService"];
+    public item: Item;
+    public cityName: string;
+    public size: string;
 
-    constructor() { }
-
-    public onAdd(item: ItemModel): void {
-        this.addedItem = item;
-    }
-
-    public onSelect(value): any {
-        this.sizeForOrder = value.selectedSize;
-        alert("Selected size: " + value.selectedSize);
+    constructor(public storeService: StoreService) {
+        this.storeService.item$.subscribe((value) => this.item = value);
+        this.storeService.cityName$.subscribe((value) => this.cityName = value);
+        this.storeService.size$.subscribe((value) => this.size = value);
     }
 
 }

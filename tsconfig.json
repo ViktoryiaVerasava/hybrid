@@ -9,9 +9,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "tmp",
-   
     "lib": [
-      "es2015",      
+      "es2015",
       "dom"
     ]
   },
@@ -20,5 +19,8 @@
   "awesomeTypescriptLoaderOptions": {
     "forkChecker": true,
     "useWebpackText": true
-  }
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

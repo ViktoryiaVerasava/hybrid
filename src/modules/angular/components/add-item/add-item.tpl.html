@@ -3,20 +3,24 @@
 <div>
     <div>
         <div>Item Name</div>
-        <input [(ngModel)]="newItem.name" class="add-item__item-name"/>
+        <input [(ngModel)]="newItem.name" (keyup.enter)="editName()" class="add-item__item-name" />
     </div>
 
     <div>
         <div>Category</div>
-        <select [(ngModel)]="newItem.category" class="add-item__item-category">
-        <option *ngFor="let category of categories" [ngValue]="category">{{category}}</option> 
+        <select [(ngModel)]="newItem.category" (change)="changeCategory()" class="add-item__item-category">
+            <option *ngFor="let category of categories" [ngValue]="category">{{category}}</option>
         </select>
     </div>
 
     <div>
         <div>Content</div>
-        <textarea [(ngModel)]="newItem.content" class="add-item__item-content"></textarea>
+        <textarea [(ngModel)]="newItem.content" (ngModelChange)="editContent()" class="add-item__item-content"></textarea>
     </div>
 
     <button (click)="addNewItem()">Submit</button>
+    <button (click)="reset()">Reset</button>
 </div>
+<div *ngIf="item$ | async as it">In add item component: {{it.name}} / {{it.category}} / {{it.content}}</div>
+<div *ngIf="cityName$ | async as c">In add item component: size: {{c}} </div>
+<br>

@@ -1,16 +1,17 @@
 import { SizeModel } from "../../model/size-model";
+import { StoreService } from "../../services/store.service";
 
 export class SizeController {
-    public static $inject: Array<string> = ["SizeModel"];
 
-    onSelect: (string) => any;
-    selectedSize: string;
+    public static $inject: any = ["SizeModel", "StoreService"];
 
-    constructor(public sizeModel: SizeModel) {
+    private selectedSize: string;
+
+    constructor(public sizeModel: SizeModel, public storeService: StoreService) {
     }
 
-    handleSelect(): void {
-        this.onSelect({ selectedSize: this.selectedSize });
+    public handleSelect(): void {
+        this.storeService.selectSize(this.selectedSize);
     }
 
 }

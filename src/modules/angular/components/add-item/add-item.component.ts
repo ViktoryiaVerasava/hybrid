@@ -1,31 +1,60 @@
-import { Component, ViewEncapsulation, Output, EventEmitter, Input } from '@angular/core';
-import { ItemModel } from "../../model/item-model";
+import { Component, ViewEncapsulation, OnInit } from "@angular/core";
+
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs/Observable";
+
+import { Item } from "../../model/item.model";
+import * as ItemActions from "../../actions/item.actions";
+
+interface AppState {
+  item: Item;
+  cityName: string;
+}
 
 @Component({
-  selector: 'add-item',
-  template: require('./add-item.tpl.html'),
+  selector: "add-item",
+  template: require("./add-item.tpl.html"),
   encapsulation: ViewEncapsulation.None
 })
 
-export class AddItemComponent {
+export class AddItemComponent implements OnInit {
 
-  @Input() size: string;
-  @Output() added = new EventEmitter<Object>();
-
-  protected newItem: ItemModel;
+  public item$: Observable<Item>;
+  public cityName$: Observable<string>;
+  protected newItem: any;
   private categories: String[];
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
+    this.item$ = this.store.select("item");
+    this.cityName$ = this.store.select("cityName");
     this.categories = ["Red", "Gray", "Blue"];
   }
 
-  ngOnInit() {
-    this.newItem = new ItemModel();
+  public ngOnInit(): void {
+    this.newItem = {};
   }
 
   public addNewItem(): void {
-    this.added.emit(this.newItem);
-    alert("Size at the moment is: "+ this.size);
+    this.store.dispatch(new ItemActions.EditAll(
+      {
+        "name": this.newItem.name,
+        "category": this.newItem.category,
+        "content": this.newItem.content
+      } as Item
+    ));
+  }
+
+  public editName(): void {
+    this.store.dispatch(new ItemActions.EditName(this.newItem.name));
+  }
+  public changeCategory(): void {
+    this.store.dispatch(new ItemActions.ChangeCategory(this.newItem.category));
+  }
+  public editContent(): void {
+    this.store.dispatch(new ItemActions.EditContent(this.newItem.content));
+  }
+  public reset(): void {
+    this.store.dispatch(new ItemActions.Reset(""));
   }
 
 }

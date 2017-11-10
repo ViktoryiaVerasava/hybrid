@@ -1,27 +1,35 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnInit } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs/Observable";
+
+interface AppState {
+  cityName: string;
+}
 
 @Component({
-  selector: 'city',
-  template: require('./city.tpl.html'),
+  selector: "city",
+  template: require("./city.tpl.html"),
   encapsulation: ViewEncapsulation.None
 })
 
-export class CityComponent {
+export class CityComponent implements OnInit {
+
+  public city$: Observable<string>;
 
   private cities: [string];
   private selectedCity: string;
 
-  constructor() {
+  constructor(private store: Store<AppState>) {
+    this.city$ = this.store.select("cityName");
   }
 
-  ngOnInit() {
-    this.cities = ['Minsk', 'Moscow'];
-    this.selectedCity = 'Minsk';
+  public ngOnInit(): void {
+    this.cities = ["Minsk", "Moscow"];
+    this.selectedCity = "Minsk";
   }
 
   public toggle(value: string): void {
-    this.selectedCity = value;
-    alert("City: " + value);
+    this.store.dispatch({ type: value.toUpperCase() });
   }
 
 }
