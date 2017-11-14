@@ -1,22 +1,30 @@
 import "./polyfills.ts";
-import "./modules/angular/index";
 import * as angular from "angular";
 import { downgradeInjectable } from "@angular/upgrade/static";
 
+import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+import { AppModule } from "./app.module";
+
 import { downgradeComponent } from "@angular/upgrade/static";
-import { AddItemComponent } from "./modules/angular/components/add-item/add-item.component";
-import { CityComponent } from "./modules/angular/components/city/city.component";
-import { StoreService } from "./modules/angular/services/store.service";
+import { AddItemComponent } from "./components/add-item/add-item.component";
+import { CityComponent } from "./components/city/city.component";
+import { StoreService } from "./services/store.service";
+
+import { MainComponent } from "./components/main/main.component";
+import { SizeComponent } from "./components/size/size.component";
+import { SizeModel } from "./model/size-model";
 
 angular.module("app", ["app.ng1", "ng2"]);
 angular.module("ng2", [])
     .directive("addItem",
-    downgradeComponent({ component: AddItemComponent }) as angular.IDirectiveFactory)
+    downgradeComponent({ component: AddItemComponent }))
     .directive("city",
-    downgradeComponent({ component: CityComponent }) as angular.IDirectiveFactory)
-    .factory("StoreService", downgradeInjectable(StoreService));
-
-import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-import { AppModule } from "./app.module";
+    downgradeComponent({ component: CityComponent }))
+    .service("StoreService", downgradeInjectable(StoreService));
+angular.module("app.ng1", [])
+    .service("SizeModel", SizeModel)
+    .service("StoreService", StoreService)
+    .component("main", new MainComponent())
+    .component("size", new SizeComponent());
 
 platformBrowserDynamic().bootstrapModule(AppModule);

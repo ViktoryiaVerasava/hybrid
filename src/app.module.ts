@@ -1,15 +1,19 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
-import { AddItemComponent } from "./modules/angular/components/add-item/add-item.component";
-import { CityComponent } from "./modules/angular/components/city/city.component";
+import { AddItemComponent } from "./components/add-item/add-item.component";
+import { CityComponent } from "./components/city/city.component";
 import { UpgradeModule } from "@angular/upgrade/static";
 import { FormsModule } from "@angular/forms";
 import { StoreModule } from "@ngrx/store";
-import { cityReducer } from "./modules/angular/reducers/city.reducer";
-import { itemReducer } from "./modules/angular/reducers/item.reducer";
-import { sizeReducer } from "./modules/angular/reducers/size.reducer";
-import { StoreService } from "./modules/angular/services/store.service";
-
+import { cityReducer } from "./reducers/city.reducer";
+import { itemReducer } from "./reducers/item.reducer";
+import { sizeReducer } from "./reducers/size.reducer";
+import { StoreService } from "./services/store.service";
+import { SizeService } from "./services/size.service";
+import { EffectsModule } from "@ngrx/effects";
+import { SizeEffects } from "./effects/sizeEffects";
+import { CityEffects } from "./effects/cityEffects";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 @NgModule({
     declarations: [
@@ -28,10 +32,15 @@ import { StoreService } from "./modules/angular/services/store.service";
             cityName: cityReducer,
             item: itemReducer,
             size: sizeReducer
-        })
+        }),
+        StoreDevtoolsModule.instrument({
+            maxAge: 10
+        }),
+        EffectsModule.forRoot([SizeEffects, CityEffects])
     ],
     providers: [
-        StoreService
+        StoreService,
+        SizeService
     ]
 })
 export class AppModule {
